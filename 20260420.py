@@ -170,9 +170,9 @@
 
 ############################## 装饰器
 def log(func):
-    def wrapper(*params):
+    def wrapper(*args, **kwargs):
         print("开始调用eat()函数...")
-        func(*params)
+        func(*args, **kwargs)
         print("结束调用eat()函数...")
         return "都吃过了" # 这里不加return，最后打印的结果就是None，因为wrapper函数没有返回值，默认返回None
     return wrapper
