@@ -137,32 +137,49 @@
 # print(x)
 # print(len(str1))
 
+
 ############################## 闭包
-def funX(x):
-    def funY(y):
-        return x + y
-    return funY
-temp = funX(10) # funX返回funY函数对象，temp指向funY函数对象
-print(temp(5)) # 调用funY函数，输出15
+# def funX(x):
+#     def funY(y):
+#         return x + y
+#     return funY
+# temp = funX(10) # funX返回funY函数对象，temp指向funY函数对象
+# print(temp(5)) # 调用funY函数，输出15
+# 
+# # 由于内部函数只能访问外部变量，不能修改，以往方式是通过容器间接实现，容器不会被屏蔽
+# def funA():
+#     x = [5]
+#     def funB():
+#         x[0] = x[0] + 1
+#         return x[0]
+#     return funB
+# temp = funA() # funA返回funB函数对象，temp指向funB函数对象
+# print(temp()) # 调用funB函数，输出6
+# 
+# # python 3引入了nonlocal关键字，允许在内嵌函数中修改外部函数的变量
+# def funC():
+#     x = 5
+#     def funD():
+#         nonlocal x # 声明x为外部函数的变量，允许修改
+#         x = x + 1
+#         return x
+#     return funD
+# temp = funC()
+# print(temp()) # 调用funD函数，输出6
 
-# 由于内部函数只能访问外部变量，不能修改，以往方式是通过容器间接实现，容器不会被屏蔽
-def funA():
-    x = [5]
-    def funB():
-        x[0] = x[0] + 1
-        return x[0]
-    return funB
-temp = funA() # funA返回funB函数对象，temp指向funB函数对象
-print(temp()) # 调用funB函数，输出6
 
-# python 3引入了nonlocal关键字，允许在内嵌函数中修改外部函数的变量
-def funC():
-    x = 5
-    def funD():
-        nonlocal x # 声明x为外部函数的变量，允许修改
-        x = x + 1
-        return x
-    return funD
-temp = funC()
-print(temp()) # 调用funD函数，输出6
+############################## 装饰器
+def log(func):
+    def wrapper(*params):
+        print("开始调用eat()函数...")
+        func(*params)
+        print("结束调用eat()函数...")
+        return "都吃过了" # 这里不加return，最后打印的结果就是None，因为wrapper函数没有返回值，默认返回None
+    return wrapper
 
+@log  # @log是装饰器语法糖，等价于eat = log(eat)，将eat函数作为参数传递给log函数，返回wrapper函数对象，eat指向wrapper函数对象
+def eat(*names):  # 支持任意数量的人
+    for name in names:
+        print("%s正在吃饭..." % name)
+
+print(eat("小明", "小红"))
