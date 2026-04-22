@@ -62,7 +62,7 @@
 
 ############################# 字符串
 # str1 = 'Hello World'
-# str1 = str1.casefold()
+# str1 = str1.casefold() # 将字符串转换为小写，casefold方法比lower方法更强大，可以处理更多的字符
 # print(str1)
 # str2 = "{0}, 你好吗？{a}".format("小明", a="我是小红") # format方法，{0}表示第一个参数，{a}表示命名参数a
 # print(str2)
@@ -111,8 +111,8 @@
 # #收集参数  会打包成元组
 # def test(*params, extra):
 #     print("收集参数是：", params)
-#     print("位置参数：", extra)
-# print(test(1, 2, 3, extra=4)) # 收集参数必须放在位置参数前面，否则会报错
+#     print("关键字参数：", extra)
+# print(test(1, 2, 3, extra=4)) # 收集参数必须放在关键字参数前面，否则会报错
 # # * 在形参中是打包，在实参中是解包
 # name = "fishC"
 # print(*name) # 解包字符串，输出每个字符
@@ -169,17 +169,119 @@
 
 
 ############################## 装饰器
-def log(func):
-    def wrapper(*args, **kwargs):
-        print("开始调用eat()函数...")
-        func(*args, **kwargs)
-        print("结束调用eat()函数...")
-        return "都吃过了" # 这里不加return，最后打印的结果就是None，因为wrapper函数没有返回值，默认返回None
-    return wrapper
+# def log(func):
+#     def wrapper(*args, **kwargs):
+#         print("开始调用eat()函数...")
+#         func(*args, **kwargs)
+#         print("结束调用eat()函数...")
+#         return "都吃过了" # 这里不加return，最后打印的结果就是None，因为wrapper函数没有返回值，默认返回None
+#     return wrapper
+# 
+# @log  # @log是装饰器语法糖，等价于eat = log(eat)，将eat函数作为参数传递给log函数，返回wrapper函数对象，eat指向wrapper函数对象
+# def eat(*names):  # 支持任意数量的人
+#     for name in names:
+#         print("%s正在吃饭..." % name)
+# 
+# print(eat("小明", "小红"))
 
-@log  # @log是装饰器语法糖，等价于eat = log(eat)，将eat函数作为参数传递给log函数，返回wrapper函数对象，eat指向wrapper函数对象
-def eat(*names):  # 支持任意数量的人
-    for name in names:
-        print("%s正在吃饭..." % name)
 
-print(eat("小明", "小红"))
+############################## 20260422
+###函数式编程
+# def add(x, y):
+#     return x + y
+# 等价于： lambda x, y: x + y
+# 调用：
+# g = lambda x, y: x + y # lambda表达式，匿名函数，g是一个函数对象，指向lambda表达式创建的函数对象
+# print(g(1, 2)) # 输出3
+# 
+# 闭包：
+# def funX(x):
+#     return lambda y : x + y
+# temp = funX(8)
+# print(temp(5))
+# 
+# list(filter(lambda x: x % 2 == 0, [1, 2, 3, 4, 5, 6])) # filter函数，过滤掉不满足条件的元素，返回一个迭代器，必须转换为列表才能输出结果
+# list(map(lambda x: x * 2, [1, 2, 3, 4, 5, 6])) # map函数，对每个元素进行操作，返回一个迭代器，必须转换为列表才能输出结果
+
+# 递归
+# def factorial(n):
+#     if n == 1:
+#         return 1
+#     else:
+#         return n * factorial(n - 1)
+# number = int(input("请输入一个整数："))
+# result = factorial(number)
+# print("%d的阶乘是%d" % (number, result))
+
+### 字典
+dict1 = {"小明": 18, "小红": 20, "小刚": 19}
+for each in dict1: # 默认遍历字典的键，each是每一个键，名字可以随意起
+    print("%s -> %s" % (each, dict1[each]))
+
+for name, age in dict1.items(): # items方法，返回一个包含字典中所有键值对的视图对象，每个元素是一个包含键和值的元组
+    print("%s -> %s" % (name, age))
+for name in dict1.keys(): # keys方法，返回一个包含字典中所有键的视图对象
+    print(name)
+for age in dict1.values(): # values方法，返回一个包含字典中所有值的视图对象
+    print(age)
+
+print(dict1["小明"]) # 通过键访问字典中的值，如果键不存在会报错
+dict1.get("小明") # 更宽松，如果键值不存在，只会返回None，不会报错
+dict1.setdefault("小绿") # 与get类似，区别在于key不存在时会自动添加新的键值对，值为None
+
+dict1["小明"] = 19 # 修改字典中的值，如果键不存在会添加新的键值对
+
+# 键必须不可变，所以可以用数值、字符串、元组充当，但是列表不行
+# dict()内置函数创建字典，参数可以是一个序列（但不能是多个），所以要打包成一个元组或者列表。
+dict = {}
+dict2 = dict.fromkeys((1,2,3))
+print(dict2[1]) # fromkeys方法，创建一个新字典，以序列中的元素作为键，默认值为None，可以指定默认值
+dict3 = dict.fromkeys((1,2,3), "默认值")
+print(dict3[1])
+dict4 = dict.fromkeys((1,2,3), ("默认值","默认2","默认3"))  # 只会把元组当成一个元素
+print(dict4)
+
+dict.clear() # 清空字典中的所有键值对. 比如前一步有 dict2 = dict操作，那么dict2也会被清空，因为dict2和dict指向同一个字典对象
+
+dict5 = dict2.copy() # 复制字典，dict5和dict2指向不同的字典对象，修改dict5不会影响dict2
+
+dict5.pop(1) # 弹出key=1的值，字典也会减少对应键值对
+dict5.popitem() # 弹出最后一个键值对，字典也会减少对应键值对
+dict5.update({4: 22, 5: 23}) # update方法，更新字典中的键值对，如果键不存在会添加新的键值对，如果键存在会修改对应的值
+dict5.update(小名 = 22) # 不可以加引号
+
+
+def test(**params): # **params表示收集关键字参数，打包成一个字典，params是一个字典对象，键是参数名，值是参数值
+    print("收集参数是：", params)
+print(test(a=1, b=2, c=3)) # 打包成字典对象
+# print(test(dict1)) #**params 只收关键字参数；传字典作为位置参数不会被 **params 捕获，必须用 **dict1 解包或改变函数签名。
+print(test(**dict1)) # 解包字典，输出每个键值对
+
+# 集合
+set1 = {1, 2, 3, 4, 5}  # 集合是无序的，不重复的元素集合，使用大括号{}创建，元素之间用逗号分隔
+set2 = set([1, 2, 3, 4, 5]) # 也可以使用set()内置函数创建集合，参数可以是一个序列（但不能是多个），所以要打包成一个元组或者列表。
+
+# 不能像序列那样用下标访问集合元素，需要用迭代来讲元素一个个读取出来
+# 同样可以用add、remove等方法修改集合中的元素
+
+# 报错异常处理
+AssertionError # 断言错误，assert语句触发的异常
+AttributeError # 属性错误，访问对象不存在的属性时触发的异常 
+IndexError # 索引错误，访问序列中不存在的索引时触发的异常
+KeyError # 键错误，访问字典中不存在的键时触发的异常
+NameError # 名称错误，访问不存在的变量时触发的异常
+TypeError # 类型错误，操作或函数应用于错误类型的对象时触发的异常
+ValueError # 值错误，操作或函数接收参数的类型正确但值不合法时触发的异常
+ZeroDivisionError # 零除错误，除数为零时触发的异常
+SyntaxError # 语法错误，代码语法不正确时触发的异常
+IndentationError # 缩进错误，代码缩进不正确时触发的异常
+
+try:
+    # 可能会引发异常的代码
+    result = 10 / 0
+except ZeroDivisionError as e:
+    # 处理异常的代码
+    print("发生了零除错误：", e)
+else:
+    # 没有发生异常时执行的代码
+    print("结果是：", result)
