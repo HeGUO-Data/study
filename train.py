@@ -32,3 +32,4 @@ print(turtle1.color) # 访问实例对象的属性
 print(turtle1._Turtle__mouth) # 访问实例对象的私有属性，私有属性在类外部不能直接访问，但是可以通过 _类名__属性名 的方式访问
 turtle1.climb() # 调用实例对象的方法
 turtle1.run() # 调用实例对象的方法
+
