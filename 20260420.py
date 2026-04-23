@@ -285,3 +285,44 @@ except ZeroDivisionError as e:
 else:
     # 没有发生异常时执行的代码
     print("结果是：", result)
+
+
+
+####################### 类和类的实例化
+class Turtle:
+    color = 'green'
+    weight = 10
+    legs = 4
+    shell = True
+    __mouth = '大嘴'
+
+    def __init__(self, name): 
+        # 构造方法，初始化实例对象的属性，self表示实例对象本身，name是一个参数，用于初始化实例对象的name1属性
+        # 自动调用，创建实例对象时必须传入name参数，否则会报错
+        # 需要初始化时候才会重写init方法，重写后就不再有默认的构造方法了，所以必须在创建实例对象时传入name参数，否则会报错
+        self.name1 = name
+
+    def climb(self):
+        print("我%s会爬树了！" % self.name1)
+    
+    def run(self):
+        print("我会跑了！")
+    
+turtle1 = Turtle("小猪") # 创建一个Turtle类的实例对象turtle1
+print(turtle1.color) # 访问实例对象的属性
+print(turtle1._Turtle__mouth) # 访问实例对象的私有属性，私有属性在类外部不能直接访问，但是可以通过 _类名__属性名 的方式访问
+turtle1.climb() # 调用实例对象的方法
+turtle1.run() # 调用实例对象的方法
+
+class Child(Turtle):
+    def __init__(self, name, age):
+        super().__init__(name) # 调用父类的构造方法，初始化父类的属性
+        self.age = age # 初始化子类的属性
+
+c = Child("小明", 5) # 创建一个Child类的实例对象c
+print(c.name1) # 访问父类的属性
+print(c.age) # 访问子类的属性
+
+# 实例化时，会自动将实例对象本身作为第一个参数传递给构造方法，所以在构造方法中必须有self参数来接收这个实例对象，否则会报错。
+# 实例属性是绑定在自己的命名空间里，而不是类里。
+
