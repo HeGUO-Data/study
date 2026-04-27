@@ -354,3 +354,11 @@ sys.path.append("/path/to/your/module") # 添加新的搜索路径
 # import package.module # 导入包中的模块，使用包名.模块名的方式访问模块中的函数和变量
 # from package import module # 从包中导入模块，使用模块名的方式访问模块中的函数和变量
 # from package.module import function # 从包中的模块导入函数，使用函数名的方式访问函数
+
+
+
+# 正则表达式
+import re
+re.search(r'.', 'I love Python') # .表示匹配任意一个字符，除了换行符
+re.search(r'\d', 'I love Python') # \d表示匹配任意一个数字，等价于[0-9]
+re.search(r'[a-z]', 'I love Python') # 字符类
